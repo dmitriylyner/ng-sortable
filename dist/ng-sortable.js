@@ -641,6 +641,18 @@
           scope.itemScope = itemController.scope;
           element.data('_scope', scope); // #144, work with angular debugInfoEnabled(false)
 
+          scope.$watch('sortableScope.modelValue', function (newVal) {
+            if (newVal) {
+              const updatedModelValue = scope.sortableScope.modelValue
+                .find(function (v) {
+                  return v.id === scope.modelValue.id;
+                });
+              if (updatedModelValue) {
+                scope.modelValue = updatedModelValue;
+              }
+            }
+          });
+
           scope.$watchGroup(['sortableScope.isDisabled', 'sortableScope.options.longTouch'],
               function (newValues) {
             if (isDisabled !== newValues[0]) {
